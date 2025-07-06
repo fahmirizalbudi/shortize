@@ -52,7 +52,7 @@ class UrlController extends Controller
     public function update(Request $request, Url $url)
     {
         $validator = Validator::make($request->all(), [
-            'prefix' => 'required|unique:urls|min:2',
+            'prefix' => 'required|min:2|unique:urls,prefix,' . $url->id,
             'destination_url' => 'required|url'
         ]);
 
@@ -72,5 +72,32 @@ class UrlController extends Controller
     {
         $url->delete();
         return JSONFormatter::format(200, 'Url deleted successfully');
+    }
+
+    public function user(Request $request)
+    {
+        $user_id = $request->user()->id;
+        $search = $request->input('search');
+        $urls = Url::with('user.role')->where('destination_url', 'like', "%$search%")->where('user_id', $user_id)->get();
+        return JSONFormatter::format(200, "Urls with user id $user_id retrieved successfully", $urls);
+    }
+
+    public function exists(Request $request)
+    {
+        $prefix = $request->input('prefix');
+        $url = Url::where('prefix', $prefix)->first();
+        if (!$url) {
+            return JSONFormatter::format(200, 'Prefix is ready to use', ['exists' => false]);
+        }
+        return JSONFormatter::format(409, 'Prefix already exists', ['exists' => true]);
+    }
+
+    public function go(Url $url)
+    {
+        $now = now();
+        $url->visitor = $url->visitor + 1;
+        $url->last_visited = $now->toDateTimeString();
+        $url->save();
+        return JSONFormatter::format(200, null, ['url' => $url->destination_url]);
     }
 }
