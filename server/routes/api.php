@@ -20,7 +20,7 @@ Route::prefix('v1')->group(function () {
    Route::middleware('auth:sanctum')->group(function () {
        Route::apiResource('users', UserController::class)->middleware('authorize:admin');
        Route::prefix('urls')->group(function () {
-           Route::get('/', [UrlController::class, 'index']);
+           Route::get('/', [UrlController::class, 'index'])->middleware('authorize:admin');
            Route::post('/', [UrlController::class, 'store']);
            Route::get('user', [UrlController::class, 'user']);
            Route::get('exists', [UrlController::class, 'exists']);
