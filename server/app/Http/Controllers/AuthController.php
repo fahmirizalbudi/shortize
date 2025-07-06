@@ -62,7 +62,6 @@ class AuthController extends Controller
     public function me(Request $request)
     {
         $user = User::with('role')->find($request->user()->id);
-        $user->role->makeHidden('created_at', 'updated_at');
         return JSONFormatter::format(200, null, $user);
     }
 }
