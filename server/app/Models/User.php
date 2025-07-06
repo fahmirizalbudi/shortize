@@ -56,4 +56,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(Url::class);
     }
+
+    public function hasRole($role)
+    {
+        $collection = collect($this->role);
+        return $collection->contains('role', $role);
+    }
 }

@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UrlController;
 use App\Http\Controllers\UserController;
+use App\Http\Middleware\AuthMiddleware;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('v1')->group(function () {
@@ -15,7 +16,7 @@ Route::prefix('v1')->group(function () {
    });
 
    Route::middleware('auth:sanctum')->group(function () {
-       Route::apiResource('users', UserController::class);
+       Route::apiResource('users', UserController::class)->middleware('authorize:admin');
        Route::prefix('urls')->group(function () {
            Route::apiResource('/', UrlController::class);
        });
