@@ -26,4 +26,11 @@ return Application::configure(basePath: dirname(__DIR__))
             }
             return null;
         });
+
+        $exceptions->renderable(function (\Illuminate\Auth\AuthenticationException $e, Request $request) {
+            if ($request->wantsJson()) {
+                return JSONFormatter::format(401, 'Invalid or missing authentication token', null);
+            }
+            return null;
+        });
     })->create();
