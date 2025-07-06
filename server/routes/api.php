@@ -18,7 +18,11 @@ Route::prefix('v1')->group(function () {
    Route::middleware('auth:sanctum')->group(function () {
        Route::apiResource('users', UserController::class)->middleware('authorize:admin');
        Route::prefix('urls')->group(function () {
-           Route::apiResource('/', UrlController::class);
+           Route::get('/', [UrlController::class, 'index']);
+           Route::post('/', [UrlController::class, 'store']);
+           Route::get('/{url}', [UrlController::class, 'show']);
+           Route::put('/{url}', [UrlController::class, 'update']);
+           Route::delete('/{url}', [UrlController::class, 'destroy']);
        });
    });
 
