@@ -59,7 +59,6 @@ class User extends Authenticatable
 
     public function hasRole($role)
     {
-        $collection = collect($this->role);
-        return $collection->contains('role', $role);
+        return $this->role && $this->role->role === $role;
     }
 }
