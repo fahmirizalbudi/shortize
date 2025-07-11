@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('urls', function (Blueprint $table) {
             $table->id();
-            $table->text('prefix')->unique();
+            $table->string('prefix')->unique();
             $table->text('destination_url');
             $table->unsignedInteger('visitor')->default(0);
             $table->unsignedBigInteger('user_id');
