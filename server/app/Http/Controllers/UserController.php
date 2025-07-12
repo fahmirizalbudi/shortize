@@ -51,8 +51,9 @@ class UserController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|min:2',
-            'email' => 'required|email|unique:users,email,' . $user->email,
+            'email' => 'required|email|unique:users,email,' . $user->id,
             'password' => 'nullable',
+            'role_id' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -64,7 +65,7 @@ class UserController extends Controller
             'email' => $request->email
         ];
 
-        if ($request->has('password')) {
+        if ($request->has('password') AND isset($request->password)) {
             $arr['password'] = bcrypt($request->password);
         }
 
