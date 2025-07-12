@@ -6,6 +6,7 @@ export const AuthContext = createContext()
 export const AuthProvider = ({children}) => {
     const [user, setUser] = useState(null)
     const [loading, setLoading] = useState(true)
+    const [isAuthenticated, setIsAuthenticated] = useState(false)
 
     useEffect(() => {
         const run = async () => {
@@ -19,7 +20,7 @@ export const AuthProvider = ({children}) => {
         if (!token) {
             setUser(null);
             setLoading(false);
-            return;
+            return <h1 className="text-xl">403 Forbidden</h1>;
         }
 
         try {
@@ -39,6 +40,7 @@ export const AuthProvider = ({children}) => {
 
             const data = await res.json();
             setUser(data.data);
+            setIsAuthenticated(true)
         } catch (err) {
             console.error(err)
         } finally {
@@ -68,7 +70,7 @@ export const AuthProvider = ({children}) => {
     };
 
     return (
-        <AuthContext.Provider value={{user, login, logout, loading, checkUser}}>
+        <AuthContext.Provider value={{user, login, logout, loading, checkUser, isAuthenticated}}>
             {children}
         </AuthContext.Provider>
     );

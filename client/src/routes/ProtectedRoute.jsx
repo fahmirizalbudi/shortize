@@ -1,22 +1,13 @@
-import {useContext, useEffect} from 'react';
-import {Navigate, useLocation} from 'react-router-dom';
+import {useContext} from 'react';
+import {Navigate} from 'react-router-dom';
 import {AuthContext} from "../contexts/AuthContext.jsx";
 
 const ProtectedRoute = ({children, roles}) => {
-    const {user, loading, checkUser} = useContext(AuthContext);
-
-    const location = useLocation();
-
-    useEffect(() => {
-        const run = async () => {
-            await checkUser()
-        };
-        run()
-    }, [location.pathname]);
+    const {isAuthenticated, user, loading} = useContext(AuthContext);
 
     if (loading) return <div className="loader"></div>;
-    if (!user) return <Navigate to="/auth/login"/>;
-    if (roles && !roles.includes(user.role.role)) return <h1>403 Akses Ditolak</h1>;
+    if (!isAuthenticated || !user) return <Navigate to="/auth/login" replace />;
+    if (roles && !roles.includes(user.role.role)) return <h1 className="text-xl">403 Forbidden</h1>;
 
     return children;
 };

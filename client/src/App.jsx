@@ -8,6 +8,7 @@ import {useEffect} from "react";
 import MicroModal from 'micromodal';
 import Login from "./pages/Login/index.jsx";
 import ProtectedRoute from "./routes/ProtectedRoute.jsx";
+import GuestRoute from "./routes/GuestRoute.jsx";
 
 function App() {
 
@@ -27,7 +28,7 @@ function App() {
           <Route path="users" element={<Users />} />
           <Route path="links" element={<View>Links</View>} />
         </Route>
-        <Route path="auth">
+        <Route path="auth" element={<GuestRoute />}>
           <Route path="login" element={<Login/>} />
         </Route>
         <Route path="*" element={<h1>404</h1>} />
