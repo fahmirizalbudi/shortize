@@ -1,9 +1,14 @@
-const SideBarMenu = ({ isActive, Icon, navigate, title, onSelectedMenu }) => {
+import { Link, useLocation } from "react-router-dom"
+
+const SideBarMenu = ({Icon, navigate, title }) => {
+    const location = useLocation()
+    const currentPath = location.pathname
+    const isActive = currentPath === navigate
     return (
-        <a href={navigate} className={`w-full h-14 rounded p-5 opacity-50 flex gap-4 items-center transition-all duration-150 ease-linear ${isActive === title && `bg-[#534FEB] opacity-100 text-white`}`} onClick={onSelectedMenu}>
+        <Link to={navigate} className={`w-full h-14 rounded p-5 opacity-50 flex gap-4 items-center transition-all duration-150 ease-linear ${isActive && `bg-[#534FEB] opacity-100 text-white`}`}>
             <Icon size={22} className="ms-2"/>
             <span className="text-lg line leading-5 relative top-1/21.9">{title}</span>
-        </a>
+        </Link>
     )
 }
 
