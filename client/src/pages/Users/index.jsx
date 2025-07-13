@@ -13,6 +13,7 @@ import {BASE_URL, IS_CREATE, IS_UPDATE} from "../../constants/constant.js";
 import ComboBox from "../../components/ComboBox/index.jsx";
 import {useSearchParams} from "react-router-dom";
 import Cached from "../../utils/Cached.js";
+import {fetchWithAuth} from "../../utils/fetchWithAuth.jsx";
 
 const userCache = new Cached()
 
@@ -41,15 +42,15 @@ const Users = () => {
 
         setFetchLoading(true)
         setUsers([])
-        const token = localStorage.getItem("token")
         try {
-            const res = await fetch(BASE_URL + "/api/v1/users", {
+            const res = await fetchWithAuth(BASE_URL + "/api/v1/users", {
                 method: "GET",
                 headers: {
-                    "Authorization": `Bearer ${token}`,
                     "Accept": "application/json"
                 }
             })
+            if (!res) return
+
             const json = await res.json()
             setUsers(json.data)
             userCache.set(json.data)
@@ -84,15 +85,15 @@ const Users = () => {
         setCondition(IS_UPDATE)
         setForm({})
         setValidate([])
-        const token = localStorage.getItem("token")
         try {
-            const res = await fetch(BASE_URL + `/api/v1/users/${id}`, {
+            const res = await fetchWithAuth(BASE_URL + `/api/v1/users/${id}`, {
                 method: "GET",
                 headers: {
-                    "Authorization": `Bearer ${token}`,
                     "Accept": "application/json"
                 }
             })
+            if (!res) return
+
             const json = await res.json()
             const data = json.data
             setForm({ id: data.id, name: data.name, email: data.email, password: "", role_id: data.role.id })
@@ -117,17 +118,17 @@ const Users = () => {
     const handleCreate = async (e) => {
         e.preventDefault()
         setFormLoading(true)
-        const token = localStorage.getItem("token")
         try {
-            const res = await fetch(BASE_URL + "/api/v1/users", {
+            const res = await fetchWithAuth(BASE_URL + "/api/v1/users", {
                 method: "POST",
                 headers: {
-                    "Authorization": `Bearer ${token}`,
                     "Accept": "application/json",
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify(form)
             })
+            if (!res) return
+
             if (res.status === 422) {
                 const err = await res.json()
                 setValidate(err.data)
@@ -148,17 +149,17 @@ const Users = () => {
     const handleUpdate = async (e, id) => {
         e.preventDefault()
         setFormLoading(true)
-        const token = localStorage.getItem("token")
         try {
-            const res = await fetch(BASE_URL + `/api/v1/users/${id}`, {
+            const res = await fetchWithAuth(BASE_URL + `/api/v1/users/${id}`, {
                 method: "PUT",
                 headers: {
-                    "Authorization": `Bearer ${token}`,
                     "Accept": "application/json",
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify(form)
             })
+            if (!res) return
+
             if (res.status === 422) {
                 const err = await res.json()
                 setValidate(err.data)
@@ -179,16 +180,16 @@ const Users = () => {
     const handleRemove = async (e, id) => {
         e.preventDefault()
         setFormLoading(true)
-        const token = localStorage.getItem("token")
         try {
-            const res = await fetch(BASE_URL + `/api/v1/users/${id}`, {
+            const res = await fetchWithAuth(BASE_URL + `/api/v1/users/${id}`, {
                 method: "DELETE",
                 headers: {
-                    "Authorization": `Bearer ${token}`,
                     "Accept": "application/json",
                     "Content-Type": "application/json"
                 }
             })
+            if (!res) return
+
             if (!res.ok) {
                 throw new Error("Unexpected error.")
             }
