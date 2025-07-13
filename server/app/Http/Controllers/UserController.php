@@ -62,7 +62,8 @@ class UserController extends Controller
 
         $arr = [
             'name' => $request->name,
-            'email' => $request->email
+            'email' => $request->email,
+            'role_id' => $request->role_id
         ];
 
         if ($request->has('password') AND isset($request->password)) {
