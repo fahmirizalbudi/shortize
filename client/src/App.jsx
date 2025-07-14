@@ -1,5 +1,4 @@
 import "./App.css";
-import View from "./components/View/index.jsx";
 import AdminLayout from "./layouts/AdminLayout.jsx";
 import Interface from "./pages/Interface/index.jsx";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
@@ -9,6 +8,7 @@ import MicroModal from 'micromodal';
 import Login from "./pages/Login/index.jsx";
 import ProtectedRoute from "./routes/ProtectedRoute.jsx";
 import GuestRoute from "./routes/GuestRoute.jsx";
+import Links from "./pages/Links/index.jsx";
 
 function App() {
 
@@ -26,7 +26,7 @@ function App() {
         }>
           <Route index element={<Interface />} />
           <Route path="users" element={<Users />} />
-          <Route path="links" element={<View>Links</View>} />
+          <Route path="links" element={<Links />} />
         </Route>
         <Route path="auth" element={<GuestRoute />}>
           <Route path="login" element={<Login/>} />
