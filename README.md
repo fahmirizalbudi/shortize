@@ -16,7 +16,7 @@
 
 ## 🔗 Shortize
 
-Shortize is a simple application for creating short URLs easily and quickly. Built with Laravel as the backend and React for a dynamic user interface, this project ensures a smooth user experience. Data management is handled reliably by MySQL. Key features include:
+Shortize is a simple web based application for creating short URLs easily and quickly. Built with Laravel as the backend and React for a dynamic user interface, this project ensures a smooth user experience. Data management is handled reliably by MySQL. Key features include:
 
 ## ✨ Features
 
